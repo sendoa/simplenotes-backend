@@ -20,7 +20,9 @@ class UsersController extends \BaseController {
 			return Response::json($response, 404);
 		}
 
-		return Response::json($user->notes()->orderBy('created_at', 'desc')->get(), 200);
+		$response =  Response::json($user->notes()->orderBy('created_at', 'desc')->get(), 200);
+        //$response->headers->set('Cache-Control',  'max-age=86400, public');
+        return $response;
 	}
 
 	/**
