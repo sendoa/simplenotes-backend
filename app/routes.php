@@ -23,6 +23,7 @@ Route::group(array('prefix' => 'api/v1', 'before' => 'auth_api_key'), function()
 	Route::delete('notes/{id}', 'NotesController@destroy');
 
 	// Users
+    Route::get('users/{id}', 'UsersController@getUserData');
 	Route::get('users/{id}/notes', 'UsersController@getNotes');
 	Route::post('users', 'UsersController@create');
 	Route::post('users/login', 'UsersController@login');
