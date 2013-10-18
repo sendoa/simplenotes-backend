@@ -20,7 +20,9 @@ class UsersController extends \BaseController {
 			return Response::json($response, 404);
 		}
 
-		return Response::json($user->notes()->orderBy('created_at', 'desc')->get(), 200);
+		$response =  Response::json($user->notes()->orderBy('created_at', 'desc')->get(), 200);
+        //$response->headers->set('Cache-Control',  'max-age=86400, public');
+        return $response;
 	}
 
 	/**
@@ -107,4 +109,24 @@ class UsersController extends \BaseController {
 		}
 	}
 
+    public function getUserData($id)
+    {
+        $user = User::find($id);
+
+        if ($user == null) {
+            $response = array(
+                'error_message' => "The user with id '$id' doent's exist",
+                'code'          => '400',
+                'errors'        => null
+            );
+            return Response::json($response, 400);
+        }
+
+        $response = array(
+            'result'    => 'OK',
+            'code'      => '200',
+            'user_data' => $user->toArray()
+        );
+        return Response::json($response, 200);
+    }
 }
